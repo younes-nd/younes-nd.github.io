@@ -1,5 +1,5 @@
 /* Offline: cache the app shell, serve cache-first, refresh in the background. */
-const CACHE = 'newday-v4';
+const CACHE = 'newday-v5';
 const ASSETS = ['./', 'index.html', 'styles.css', 'manifest.webmanifest',
   'js/i18n.js', 'js/i18n-extra.js', 'js/store.js', 'js/logic.js', 'js/ui-common.js', 'js/habit-form.js', 'js/onboarding.js',
   'js/view-today.js', 'js/view-week.js', 'js/view-stats.js', 'js/view-notes.js', 'js/view-rewards.js', 'js/view-settings.js', 'js/challenges.js', 'js/ai.js', 'js/app.js',
