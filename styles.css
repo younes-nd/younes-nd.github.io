@@ -389,3 +389,5 @@ textarea.input{height:auto;min-height:110px;padding:12px 14px;resize:vertical;li
 .seg button{line-height:1.25}
 .logo{font-size:18px!important;letter-spacing:-.06em}
 .ob-hero .logo{font-size:50px!important}
+/* split ND logo = same as app icon */
+.logo{background:url(icons/icon-512.png?v=3) center/cover no-repeat!important;color:transparent!important;overflow:hidden}
