@@ -1,0 +1,58 @@
+/* Strings for fire, notes, rewards and the AI coach (merged into I18N). */
+Object.assign(I18N.ar, {
+  display: 'شكل الالتزام', dFire: '🔥 نار', dPlant: '🌱 نبتة', dChain: '⛓️ سلسلة', streakMsg: '{n} يوم وانت ملتزم! استمر 💪', growing: 'التزامك ينمو… {n}/7', startStreak: 'أنجز نصف مهامك اليوم لتبدأ سلسلتك',
+  challenges: 'التحديات', chName: 'تحدي {n} يوم', chDays: 'يوم', chStart: 'ابدأ', chStarted: 'بدأ التحدي! 💪', chHint: 'كل يوم تنجز فيه نصف مهامك يُحسب. أيام الراحة لا تكسره.', chReset: 'فاتك يوم — العدّاد رجع للصفر. حاول من جديد!', chQuit: 'إلغاء التحدي', chDone: 'أكملت التحدي!', chDoneSub: 'حصلت على وسام {n} يوم 🏅',
+  dayWord: 'يوم', goalSaved: 'المدّخر حالياً', edit: 'تعديل',
+  navNotes: 'الملاحظات', navRewards: 'المكافآت',
+  fireHeat: 'النار تسخن… {n}/7 🔥', fireCold: 'النار باردة — أنجز نصف مهامك اليوم لتشعلها',
+  fireMsgs: { 7: 'أسبوع وانت ملتزم! نار الأيام اشتعلت 🔥', 14: 'أسبوعين بلا توقف! النار تكبر 🔥', 30: 'شهر كامل من الالتزام! أنت منضبط حقاً', 60: 'شهرين! النار صارت لهيباً لا ينطفئ', 100: '100 يوم! أنت أسطورة الالتزام', 180: 'نصف سنة من الانضباط! استمر', 365: 'سنة كاملة! أنت ملك نظامك 👑' },
+  fireTitle: 'اشتعلت النار!', milestones: 'محطات النار', restKeeps: 'أيام الراحة تحافظ على النار 😴',
+  notes: 'الملاحظات', generalNote: 'ملاحظة عامة', dayNote: 'ملاحظة اليوم', notePh: 'اكتب ما يدور في بالك…', pastNotes: 'ملاحظات سابقة', noNotes: 'لا توجد ملاحظات بعد',
+  rewards: 'المكافآت', balance: 'رصيد النقاط', earned: 'المكتسب', spent: 'المصروف', addReward: 'مكافأة جديدة', rewardName: 'المكافأة',
+  rewardPh: 'مثال: سهرة ألعاب', cost: 'التكلفة (نقاط)', redeem: 'استبدال', notEnough: 'تحتاج {n} نقطة إضافية', redeemed: 'تم الاستبدال! استمتع 🎁',
+  history: 'السجل', noRewards: 'أضف مكافآت تحفّزك — أنت من يحدد قيمتها.', goal: 'هدف الادخار', goalName: 'الهدف', goalNamePh: 'مثال: لابتوب',
+  goalTarget: 'المبلغ المطلوب', goalUnit: 'دج', addToGoal: 'أضف للهدف (اختياري)', setGoal: 'حدد هدفاً', editGoal: 'تعديل الهدف', goalReached: 'وصلت لهدفك! 🎉',
+  defaultRewards: [['سهرة ألعاب', 200, '🎮'], ['أضع 1000 دج في صندوق اللابتوب', 500, '💻']],
+  ai: 'المدرب الذكي (اختياري)', aiSub: 'ضع مفتاح Gemini الخاص بك (مجاني من aistudio.google.com). يُحفظ في هاتفك فقط.', aiKey: 'مفتاح API',
+  aiSave: 'حفظ المفتاح', aiRemove: 'إزالة', aiBuild: 'ابنِ خطتي بالذكاء الاصطناعي', aiGoalPh: 'مثال: أريد أن أصبح رياضياً خلال 3 أشهر',
+  aiGenerate: 'اقترح عادات', aiAdd: 'أضف المختار', aiThinking: 'يفكّر…', aiError: 'تعذّر الاتصال: {e}', aiTip: 'نصيحة اليوم', aiKeyOk: 'تم حفظ المفتاح ✅',
+  aiNoKey: 'أضف مفتاحك أولاً من الإعدادات'
+});
+Object.assign(I18N.en, {
+  display: 'Commitment style', dFire: '🔥 Fire', dPlant: '🌱 Plant', dChain: '⛓️ Chain', streakMsg: '{n} days committed! Keep going 💪', growing: 'Your commitment is growing… {n}/7', startStreak: 'Finish half of today’s tasks to start your streak',
+  challenges: 'Challenges', chName: '{n}-day challenge', chDays: 'days', chStart: 'Start', chStarted: 'Challenge started! 💪', chHint: 'Every day you finish at least half your tasks counts. Rest days don’t break it.', chReset: 'You missed a day — the counter is back to zero. Try again!', chQuit: 'Quit challenge', chDone: 'Challenge complete!', chDoneSub: 'You earned the {n}-day badge 🏅',
+  dayWord: 'Day', goalSaved: 'Saved so far', edit: 'Edit',
+  navNotes: 'Notes', navRewards: 'Rewards',
+  fireHeat: 'Fire heating up… {n}/7 🔥', fireCold: 'Your fire is cold — finish half of today’s tasks to light it',
+  fireMsgs: { 7: 'One full week committed! Your fire is lit 🔥', 14: 'Two weeks straight! The fire grows 🔥', 30: 'A whole month! You are truly disciplined', 60: 'Two months! An unstoppable blaze', 100: '100 days! You are a legend of consistency', 180: 'Half a year of discipline! Keep going', 365: 'A full year! You rule your system 👑' },
+  fireTitle: 'Fire ignited!', milestones: 'Fire milestones', restKeeps: 'Rest days keep the fire alive 😴',
+  notes: 'Notes', generalNote: 'General note', dayNote: "Today's note", notePh: 'Write what’s on your mind…', pastNotes: 'Past notes', noNotes: 'No notes yet',
+  rewards: 'Rewards', balance: 'Points balance', earned: 'Earned', spent: 'Spent', addReward: 'New reward', rewardName: 'Reward',
+  rewardPh: 'e.g. Gaming evening', cost: 'Cost (points)', redeem: 'Redeem', notEnough: 'You need {n} more points', redeemed: 'Redeemed! Enjoy 🎁',
+  history: 'History', noRewards: 'Add rewards that motivate you — you set their price.', goal: 'Savings goal', goalName: 'Goal', goalNamePh: 'e.g. Laptop',
+  goalTarget: 'Target amount', goalUnit: 'DA', addToGoal: 'Add to goal (optional)', setGoal: 'Set a goal', editGoal: 'Edit goal', goalReached: 'Goal reached! 🎉',
+  defaultRewards: [['Gaming evening', 200, '🎮'], ['Put 1000 DA in my laptop fund', 500, '💻']],
+  ai: 'AI coach (optional)', aiSub: 'Paste your own Gemini API key (free at aistudio.google.com). It is stored on this phone only.', aiKey: 'API key',
+  aiSave: 'Save key', aiRemove: 'Remove', aiBuild: 'Build my plan with AI', aiGoalPh: 'e.g. Get fit in 3 months',
+  aiGenerate: 'Suggest habits', aiAdd: 'Add selected', aiThinking: 'Thinking…', aiError: 'Could not reach the AI: {e}', aiTip: 'Tip of the day', aiKeyOk: 'Key saved ✅',
+  aiNoKey: 'Add your key in Settings first'
+});
+Object.assign(I18N.fr, {
+  display: "Style d'engagement", dFire: '🔥 Feu', dPlant: '🌱 Plante', dChain: '⛓️ Chaîne', streakMsg: '{n} jours d’engagement ! Continue 💪', growing: 'Ton engagement grandit… {n}/7', startStreak: 'Fais la moitié de tes tâches pour lancer ta série',
+  challenges: 'Défis', chName: 'Défi de {n} jours', chDays: 'jours', chStart: 'Lancer', chStarted: 'Défi lancé ! 💪', chHint: 'Chaque jour où tu fais au moins la moitié de tes tâches compte. Les jours de repos ne le cassent pas.', chReset: 'Jour manqué — le compteur repart à zéro. Réessaie !', chQuit: 'Abandonner le défi', chDone: 'Défi réussi !', chDoneSub: 'Tu as gagné le badge {n} jours 🏅',
+  dayWord: 'Jour', goalSaved: 'Déjà épargné', edit: 'Modifier',
+  navNotes: 'Notes', navRewards: 'Récompenses',
+  fireHeat: 'Le feu chauffe… {n}/7 🔥', fireCold: 'Ton feu est froid — fais la moitié de tes tâches pour l’allumer',
+  fireMsgs: { 7: 'Une semaine d’engagement ! Ton feu est allumé 🔥', 14: 'Deux semaines sans relâche ! Le feu grandit 🔥', 30: 'Un mois entier ! Tu es vraiment discipliné', 60: 'Deux mois ! Un brasier inarrêtable', 100: '100 jours ! Une légende de la régularité', 180: 'Six mois de discipline ! Continue', 365: 'Une année complète ! Tu maîtrises ton système 👑' },
+  fireTitle: 'Le feu est allumé !', milestones: 'Étapes du feu', restKeeps: 'Les jours de repos gardent le feu 😴',
+  notes: 'Notes', generalNote: 'Note générale', dayNote: 'Note du jour', notePh: 'Écris ce que tu as en tête…', pastNotes: 'Notes passées', noNotes: 'Pas encore de notes',
+  rewards: 'Récompenses', balance: 'Solde de points', earned: 'Gagnés', spent: 'Dépensés', addReward: 'Nouvelle récompense', rewardName: 'Récompense',
+  rewardPh: 'ex. Soirée jeux vidéo', cost: 'Coût (points)', redeem: 'Échanger', notEnough: 'Il te manque {n} points', redeemed: 'Échangé ! Profite 🎁',
+  history: 'Historique', noRewards: 'Ajoute des récompenses motivantes — tu fixes leur prix.', goal: "Objectif d'épargne", goalName: 'Objectif', goalNamePh: 'ex. Ordinateur',
+  goalTarget: 'Montant visé', goalUnit: 'DA', addToGoal: "Ajouter à l'objectif (optionnel)", setGoal: 'Fixer un objectif', editGoal: "Modifier l'objectif", goalReached: 'Objectif atteint ! 🎉',
+  defaultRewards: [['Soirée jeux vidéo', 200, '🎮'], ['Mettre 1000 DA dans la cagnotte PC', 500, '💻']],
+  ai: 'Coach IA (optionnel)', aiSub: 'Colle ta propre clé API Gemini (gratuite sur aistudio.google.com). Elle reste sur ce téléphone.', aiKey: 'Clé API',
+  aiSave: 'Enregistrer', aiRemove: 'Retirer', aiBuild: 'Construire mon plan avec l’IA', aiGoalPh: 'ex. Être en forme en 3 mois',
+  aiGenerate: 'Suggérer des habitudes', aiAdd: 'Ajouter la sélection', aiThinking: 'Réflexion…', aiError: "Impossible de joindre l'IA : {e}", aiTip: 'Conseil du jour', aiKeyOk: 'Clé enregistrée ✅',
+  aiNoKey: "Ajoute d'abord ta clé dans les réglages"
+});
