@@ -127,53 +127,30 @@ if (!window.__ndTimers) {
 }
 function clockHTML() {
   const o = ndSw(), d = new Date(), info = ndSkyInfo(), date = esc(t('dayShort')[d.getDay()]) + ' · ' + fmtDate(todayISO(), { day: 'numeric', month: 'short' });
-  return '<section class="sky s-' + info.scene + (info.day ? ' day' : ' night') + '" id="ndSky"><div class="sky-bg" aria-hidden="true"><canvas></canvas></div><i class="sky-shade"></i><i class="sky-bar"></i><i class="sky-fade"></i>' +
+  return '<section class="sky s-' + info.scene + (info.day ? ' day' : ' night') + '" id="ndSky"><div class="sky-bg" aria-hidden="true"><canvas></canvas></div><i class="sky-shade"></i><i class="sky-dim"></i>' +
     '<div class="sky-top">' + topbarHTML() + '</div>' +
     '<div class="sky-main"><div class="sky-time"><div class="clk" id="ndClock" dir="ltr"><span>' + ndPad(d.getHours()) + ':' + ndPad(d.getMinutes()) + '</span><small>:' + ndPad(d.getSeconds()) + '</small></div>' +
     '<div class="sky-date">' + date + '</div></div><div class="wx-slot">' + ndSkyLine(info) + '</div></div>' +
     '<div class="sky-sw"><div class="sw-card' + (o.run ? ' run' : '') + (!o.run && !o.acc ? ' zero' : '') + '" id="ndSwCard"><span class="sw-ic" aria-hidden="true">' + ND_SW_IC + '</span><div class="sw" id="ndSw" dir="ltr" aria-label="' + esc(ndSwT(0)) + '">' + ndSwFmt(ndSwMs(o)) + '</div>' +
-    '<div class="sw-btns"><button class="sw-b ghost" data-sw="reset" aria-label="' + esc(ndSwT(2)) + '">' + ND_RESET + '</button><button class="sw-b" data-sw="toggle" aria-pressed="' + o.run + '" aria-label="' + esc(ndSwT(1)) + '">' + (o.run ? ND_PAUSE : ND_PLAY) + '</button></div></div></div>' +
-    '<div class="sky-mini" aria-hidden="true"><span class="mini-date">' + date + '</span><span class="mini-wx">' + ndMiniWx(info) + '</span></div></section>';
+    '<div class="sw-btns"><button class="sw-b ghost" data-sw="reset" aria-label="' + esc(ndSwT(2)) + '">' + ND_RESET + '</button><button class="sw-b" data-sw="toggle" aria-pressed="' + o.run + '" aria-label="' + esc(ndSwT(1)) + '">' + (o.run ? ND_PAUSE : ND_PLAY) + '</button></div></div></div>' + '</section>';
 }
 const ND_SW_IC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 13.5V10M10 2.8h4M18.4 6.6l1.4-1.4"/></svg>';
 
-/* ---------- collapsing header (iOS large-title style): sticky, scroll-linked transforms only ---------- */
-let ND_HDR = null;
-const ND_BAR_H = 60;
-function ndHdrMeasure() {
-  const sky = document.getElementById('ndSky'); if (!sky || !sky.isConnected) { ND_HDR = null; return; }
-  const q = c => sky.querySelector(c), clk = q('.clk');
-  const els = { bg: q('.sky-bg'), clk, date: q('.sky-date'), wx: q('.wx-slot'), top: q('.sky-top'), sw: q('.sky-sw'), mini: q('.sky-mini'), bar: q('.sky-bar'), fade: q('.sky-fade') };
-  clk.style.transform = '';
-  const H = sky.offsetHeight, sr = sky.getBoundingClientRect(), cr = clk.getBoundingClientRect();
-  const range = Math.max(0, H - ND_BAR_H), sMin = .44;
-  sky.style.top = -range + 'px';
-  const md = q('.mini-date'); if (md) md.style.marginInlineStart = Math.round(cr.width * sMin + 10) + 'px';
-  ND_HDR = { sky, els, range, sMin, dy: (H - ND_BAR_H / 2) - (cr.top - sr.top + cr.height / 2), still: ndReduced(), p: -1 };
-  ndHdrApply();
-}
-function ndHdrApply() {
-  const h = ND_HDR; if (!h || !h.sky.isConnected) return;
-  const y = Math.max(0, Math.min(h.range, window.scrollY || 0)), p = h.range ? y / h.range : 0;
-  if (Math.abs(p - h.p) < .002) return; h.p = p;
-  const e = h.els, cl = v => Math.max(0, Math.min(1, v)), st = (el, tr, op) => { if (!el) return; if (tr != null) el.style.transform = tr; if (op != null) el.style.opacity = op; };
-  st(e.bg, h.still ? null : 'translate3d(0,' + (y * .5).toFixed(1) + 'px,0)');
-  st(e.clk, 'translate3d(0,' + (h.dy * p).toFixed(1) + 'px,0) scale(' + (1 - (1 - h.sMin) * p).toFixed(3) + ')');
-  st(e.date, 'translate3d(0,' + (h.dy * p * .9).toFixed(1) + 'px,0)', cl(1 - p * 2.4).toFixed(3));
-  st(e.wx, 'translate3d(0,' + (p * 26).toFixed(1) + 'px,0) scale(' + (1 - p * .12).toFixed(3) + ')', cl(1 - p * 1.9).toFixed(3));
-  st(e.top, 'translate3d(0,' + (y * .35).toFixed(1) + 'px,0)', cl(1 - p * 1.7).toFixed(3));
-  st(e.sw, null, cl(1 - p * 2.6).toFixed(3));
-  st(e.mini, 'translate3d(0,' + ((1 - p) * 10).toFixed(1) + 'px,0)', cl((p - .55) / .4).toFixed(3));
-  st(e.bar, null, cl((p - .4) / .6).toFixed(3));
-  st(e.fade, null, cl(1 - (p - .5) * 2.2).toFixed(3));
-  h.sky.classList.toggle('stuck', p > .98);
-  if (e.sw) e.sw.style.visibility = p > .4 ? 'hidden' : '';
-}
-if (!window.__ndHdr) {
-  window.__ndHdr = 1; let queued = 0, tm = 0;
-  addEventListener('scroll', () => { if (queued || !ND_HDR) return; queued = 1; requestAnimationFrame(() => { queued = 0; ndHdrApply(); }); }, { passive: true });
-  addEventListener('resize', () => { clearTimeout(tm); tm = setTimeout(ndHdrMeasure, 120); });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ndHdrMeasure());
+/* ---------- the sheet slides over the weather (iOS Weather style) ----------
+   The sky is sticky behind; the cards' sheet scrolls over it. No scroll JS at all: the gentle fade/scale of the
+   clock and weather is a CSS scroll-driven animation (compositor-only). One IntersectionObserver notes when the
+   sheet has fully covered the sky, so the weather canvas stops painting and the sky stops being drawn. */
+let ND_COVER = null;
+function ndCoverWatch(root) {
+  if (ND_COVER) { ND_COVER.disconnect(); ND_COVER = null; }
+  NDWX.covered = false;
+  const pin = root.querySelector('.tsheet-pin'), sky = root.querySelector('#ndSky');
+  if (!pin || !sky || !('IntersectionObserver' in window)) return;
+  ND_COVER = new IntersectionObserver(es => {
+    const e = es[es.length - 1], cov = !e.isIntersecting && e.boundingClientRect.top < 0;
+    NDWX.covered = cov; sky.classList.toggle('covered', cov);
+  });
+  ND_COVER.observe(pin);
 }
 
 /* ---------- live weather in the header (Open-Meteo, keyless; network-only, cached locally) ---------- */
@@ -246,7 +223,6 @@ function ndSkyPaint() {
   ['day', 'night', 's-clear', 's-partly', 's-cloudy', 's-fog', 's-drizzle', 's-rain', 's-snow', 's-storm'].forEach(c => sky.classList.remove(c));
   sky.classList.add('s-' + info.scene, info.day ? 'day' : 'night');
   const ln = $('.wx-slot', sky); if (ln) ln.innerHTML = ndSkyLine(info);
-  const mw = $('.mini-wx', sky); if (mw) mw.innerHTML = ndMiniWx(info);
   NDWX.start($('canvas', sky), info.scene, info.day);
 }
 /* city search sheet */
@@ -363,7 +339,7 @@ const NDWX = {
     const loop = now => {
       if (me !== this.id || !cv.isConnected) { if (io) io.disconnect(); return; }
       requestAnimationFrame(loop);
-      if (document.hidden || !vis) { last = now; return; }
+      if (document.hidden || !vis || NDWX.covered) { last = now; return; }
       if (now - last < 33) return; // ~30 fps is plenty for weather
       const dt = Math.min(.1, (now - (last || now)) / 1000); last = now; t += dt; draw(dt);
     };
@@ -454,7 +430,7 @@ function renderToday(root) {
 
   const dateLabel = fmtDate(sel, { weekday: 'long', day: 'numeric', month: 'long' });
   const fireLine = heatLine(all.streak), planPct = Math.round(100 * dayN / s.plan.days);
-  root.innerHTML = clockHTML() +
+  root.innerHTML = clockHTML() + '<div class="tsheet"><i class="tsheet-pin" aria-hidden="true"></i>' +
     '<section class="fwall" aria-label="' + esc(t('planDay', { a: fmtNum(dayN), b: fmtNum(s.plan.days) })) + '"><div class="fhead"><b>' + esc(t('planDay', { a: fmtNum(dayN), b: fmtNum(s.plan.days) })) + '</b><span>' + esc(today > end ? t('planDone') : t('planLeft', { n: fmtNum(Math.max(0, diffDays(today, end))) })) + '</span></div>' +
     '<div class="strip fstrip" id="strip">' + dots + '</div><i class="fprog" style="width:' + planPct + '%"></i></section>' +
     '<section class="hero"><div class="hero-top"><div><div class="date">' + esc(dateLabel) + '</div><h1>' + esc(t('hello')) + '</h1>' +
@@ -466,9 +442,9 @@ function renderToday(root) {
     (!isToday ? '<button class="pill" data-day="' + today + '">' + esc(t('today')) + '</button>' : '') + '</div>' +
     (ds.total ? '<div class="card progress-card"><div class="ring" style="--p:' + pct + '"><span>' + pct + '%</span></div><div><h3>' + esc(pct === 100 ? t('allDone') : t('ofTasks', { a: fmtNum(ds.done), b: fmtNum(ds.total) })) + '</h3><p>' + esc(ds.rest ? t('restKeeps') : pct === 100 ? t('perfectBonus', { n: PERFECT_BONUS }) : t('keepGoing')) + '</p></div></div>' : '') +
     (ds.rest ? '<div class="rest-banner"><div class="big">😴</div><div><b>' + esc(t('restDay')) + '</b><p>' + esc(t('restDaySub')) + '</p></div></div>' : '') +
-    list + '<div id="aiTip"></div>';
+    list + '<div id="aiTip"></div></div>';
 
-  Promise.resolve().then(ndHdrMeasure); // after App.render attaches the view
+  ndCoverWatch(root);
   ndFireDefs();
   const strip = $('#strip', root), dir = document.documentElement.dir;
   NDLEAN.bind(strip);
@@ -500,3 +476,48 @@ function renderToday(root) {
   });
   if (typeof AICoach !== 'undefined' && isToday) AICoach.renderTip($('#aiTip', root), all, ds);
 }
+
+
+/* ---------- "Install app" banner: a slim bar at the very top (scrolls away with the page, never floats over content) ---------- */
+const ND_INST_TXT = {
+  ar: { btn: 'تحميل التطبيق', sub: 'ثبّته على شاشتك الرئيسية · يعمل بدون إنترنت', ios: 'اضغط «مشاركة» ثم «إضافة إلى الشاشة الرئيسية»', x: 'إغلاق' },
+  en: { btn: 'Install app', sub: 'Add it to your home screen · works offline', ios: 'Tap Share, then “Add to Home Screen”', x: 'Close' },
+  fr: { btn: 'Installer l\u2019application', sub: 'Sur ton écran d\u2019accueil · marche hors ligne', ios: 'Touche Partager puis « Sur l\u2019écran d\u2019accueil »', x: 'Fermer' }
+};
+const ND_INST_HIDE = 'newday:installHide';
+const ND_INST = { evt: null, ios: false, el: null, lang: '' };
+function ndInstAlone() { return (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true; }
+function ndInstMuted() { try { return Date.now() < Number(localStorage.getItem(ND_INST_HIDE) || 0); } catch (e) { return false; } }
+function ndInstPaint() {
+  const want = !ndInstAlone() && !ndInstMuted() && (ND_INST.evt || ND_INST.ios);
+  if (!want) { if (ND_INST.el) { ND_INST.el.remove(); ND_INST.el = null; } return; }
+  const T = ND_INST_TXT[LANG] || ND_INST_TXT.en, key = LANG + (ND_INST.evt ? 1 : 0);
+  if (ND_INST.el && ND_INST.lang === key) return;
+  const el = ND_INST.el || document.createElement('aside');
+  el.className = 'inst'; el.setAttribute('role', 'complementary'); ND_INST.lang = key;
+  el.innerHTML = '<img src="icons/icon-192.png" alt="" width="38" height="38"><div class="inst-t"><b>New Day · يوم جديد</b><small>' + esc(ND_INST.evt ? T.sub : T.ios) + '</small></div>' +
+    (ND_INST.evt ? '<button class="inst-go" data-inst="go">' + esc(T.btn) + '</button>' : '') +
+    '<button class="inst-x" data-inst="x" aria-label="' + esc(T.x) + '">✕</button>';
+  if (!ND_INST.el) { ND_INST.el = el; document.body.prepend(el); }
+}
+(() => {
+  if (ndInstAlone()) return;
+  const ua = navigator.userAgent || '';
+  ND_INST.ios = /iP(hone|ad|od)/.test(ua) && /Safari/.test(ua) && !/CriOS|FxiOS|EdgiOS/.test(ua);
+  addEventListener('beforeinstallprompt', e => { e.preventDefault(); ND_INST.evt = e; ndInstPaint(); });
+  addEventListener('appinstalled', () => { ND_INST.evt = null; ND_INST.ios = false; ndInstPaint(); });
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-inst]'); if (!b) return;
+    if (b.dataset.inst === 'go' && ND_INST.evt) {
+      const ev = ND_INST.evt; ND_INST.evt = null;
+      try { ev.prompt(); (ev.userChoice || Promise.resolve()).then(() => ndInstPaint()); } catch (err) { ndInstPaint(); }
+    } else if (b.dataset.inst === 'x') {
+      try { localStorage.setItem(ND_INST_HIDE, String(Date.now() + 3 * 864e5)); } catch (err) {}
+      ndInstPaint();
+    }
+  });
+  // follow language changes (onboarding / settings re-render #app)
+  const watch = () => { const app = document.getElementById('app'); if (app) new MutationObserver(() => { if (ND_INST.el) ndInstPaint(); }).observe(app, { childList: true }); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', watch); else watch();
+  if (ND_INST.ios) { if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ndInstPaint); else ndInstPaint(); }
+})();
