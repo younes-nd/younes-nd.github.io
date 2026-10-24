@@ -8,6 +8,7 @@ function renderSettings(root) {
       '<div class="set-col"><div class="l">' + esc(t('theme')) + '</div>' + segHTML('theme', [['dark', '● ' + t('dark')], ['light', '○ ' + t('light')]], s.settings.theme) + '</div>' +
       '<div class="set-col"><div class="l">' + esc(t('display')) + '</div>' + segHTML('display', [['fire', t('dFire')], ['plant', t('dPlant')], ['chain', t('dChain')]], s.settings.display || 'fire') + '</div>' +
       '<div class="set-col"><div class="l">' + esc(t('weekStart')) + '</div>' + segHTML('ws', [6, 0, 1].map(d => [d, t('dayLong')[d]]), s.settings.weekStart) + '</div>' +
+      (typeof ndWx === 'function' ? '<div class="set-row"><div class="l">📍 ' + esc(ndWxT('city')) + '<small>' + esc((ndWx().city || {}).name || '—') + '</small></div><button class="btn small ghost" data-city>' + esc(ndWxT('change')) + '</button></div>' : '') +
     '</div></div>' +
     '<div class="set-group"><h3>' + esc(t('plan')) + '</h3><div class="card">' +
       '<div class="set-col"><div class="l">' + esc(t('duration')) + '</div>' + segHTML('preset', presets, s.plan.preset) +

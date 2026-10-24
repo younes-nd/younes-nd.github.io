@@ -12,12 +12,17 @@ const App = {
   },
   applyTheme() { document.documentElement.dataset.theme = Store.state.settings.theme === 'light' ? 'light' : 'dark'; const m = document.querySelector('meta[name=theme-color]'); if (m) m.content = Store.state.settings.theme === 'light' ? '#ffffff' : '#000000'; },
   go(v) { this.view = v; if (v !== 'today') this.sel = null; this.render(); scrollTo(0, 0); },
+  order: ['today', 'week', 'notes', 'rewards', 'stats', 'settings'],
   render() {
     const root = $('#app'), nav = $('#nav'), fab = $('#fab');
-    if (!Store.state.onboarded) { nav.classList.add('hidden'); fab.classList.add('hidden'); renderOnboarding(root); return; }
+    if (!Store.state.onboarded) { this._shown = null; nav.classList.add('hidden'); fab.classList.add('hidden'); renderOnboarding(root); return; }
     nav.classList.remove('hidden'); fab.classList.toggle('hidden', !['today', 'week'].includes(this.view));
     const views = { today: renderToday, week: renderWeek, stats: renderStats, notes: renderNotes, rewards: renderRewards, settings: renderSettings };
-    const wrap = document.createElement('div'); wrap.className = 'view'; (views[this.view] || renderToday)(wrap);
+    // motion: a new screen slides in (direction follows the tab order), a day switch eases the list, a refresh stays still
+    const prev = this._shown, o = this.order;
+    const anim = prev !== this.view ? 'enter ' + (prev && o.indexOf(this.view) < o.indexOf(prev) ? 'back' : 'fwd') : this._swap ? 'swap' : 'still';
+    this._shown = this.view; this._swap = false;
+    const wrap = document.createElement('div'); wrap.className = 'view ' + anim; (views[this.view] || renderToday)(wrap);
     root.replaceChildren(wrap);
     this.renderNav();
   },
@@ -31,7 +36,7 @@ const App = {
     if (el.dataset.nav) return this.go(el.dataset.nav);
     if (el.dataset.toggle) return this.toggle(el.dataset.toggle, el);
     if (el.dataset.edit) { const h = Store.state.habits.find(x => x.id === el.dataset.edit); return h && openHabitForm(h); }
-    if (el.dataset.day) { this.sel = el.dataset.day; if (this.view !== 'today') return this.go('today'); return this.render(); }
+    if (el.dataset.day) { this.sel = el.dataset.day; this._swap = true; if (this.view !== 'today') return this.go('today'); return this.render(); }
     const a = el.dataset.act;
     if (a === 'add') openHabitForm(null, this.view === 'today' ? (this.sel || todayISO()) : todayISO());
     else if (a === 'settings') this.go('settings');
